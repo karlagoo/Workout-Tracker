@@ -1,6 +1,8 @@
+// dependencies
 const express = require("express");
 const mongoose = require("mongoose");
 
+// express set up
 const app = express();
 const PORT = process.env.PORT || 3000
 
@@ -11,9 +13,10 @@ app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 
+// require models
 const db = require("./models");
 
-// routes
+// require routes
 app.use(require("./routes/api-routes.js"));
 app.use(require("./routes/html-routes.js"));
 
