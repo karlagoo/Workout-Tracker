@@ -23,12 +23,12 @@ router.post("/api/workouts", ({body}, res) => {
       });
   });
 
-// editing a workout - ask tutor about this one
+// editing a workout
 router.put("api/workouts/:id", (req, res) =>{
     Workout.findOneAndUpdate(
         {_id: req.params.id},
         {$push: {exercises: req.body}}
-    ).then(dbWorkout =>{
+    ).then(dbWorkout => {
         res.json(dbWorkout);
     })
     .catch(err => {
