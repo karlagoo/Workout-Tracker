@@ -3,7 +3,13 @@ const Workout = require("../models/workout");
 
 // get all workouts
 router.get("/api/workouts", (req, res) =>{
-    Workout.find({})
+    Workout.aggregate([
+      { $addFields: { totalDuration: {
+        $sum: '$exercises.duration',
+      }, 
+    }, 
+  }, 
+    ])
     .then(dbWorkout =>{
         res.json(dbWorkout);
     })
@@ -35,6 +41,18 @@ router.put("/api/workouts/:id", (req, res) =>{
     .catch(err => {
         res.status(400).json(err);
       });
+})
+
+// complete a workout
+router.delete("/api/workouts/:id", (req, res) =>{
+  Workout.findByIdAndDelete(
+    req.body.id
+  ).then(dbWorkout => {
+      res.json(dbWorkout);
+  })
+  .catch(err => {
+      res.status(400).json(err);
+    });
 })
 
   module.exports = router;
